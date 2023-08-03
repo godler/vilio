@@ -12,6 +12,7 @@
     },
     closeModal() {
         this.isModal = false
+        $wire.$refresh()
         $wire.$dispatch('clear-product')
     },
     confirm(product_id) {
@@ -86,7 +87,7 @@
         @endif
     </x-ui.card>
     @teleport('body')
-    <x-ui.modal title="Dodaj produkt" x-show="isModal" @close="closeModal"  >
+    <x-ui.modal title="Dodaj produkt" x-show="isModal" @close="closeModal"  maxWidth="3xl" >
         <livewire:catalog.products.form />
     </x-ui.modal>
     @endteleport

@@ -16,7 +16,7 @@ class CreateProduct extends Form
     #[Rule('nullable|string')]
     public $index;
  
-    #[Rule('required|min:5')]
+    #[Rule('required|min:5|max:1000')]
     public $description = '';
 
     #[Rule(['nullable', 'numeric'])]
@@ -25,6 +25,7 @@ class CreateProduct extends Form
     #[Rule(['required', 'numeric'])]
     public $category_id;
 
+    #[Rule(['required', 'numeric'])]
     public $unit_id;
 
     public $attachments;

@@ -5,9 +5,20 @@
  */
 
 import axios from 'axios';
+import Trix from "trix";
+import '/node_modules/trix/dist/trix.css'
+
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+
+
+window.Trix = Trix;
+
+document.addEventListener("trix-before-initialize", () => {
+
+  })
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

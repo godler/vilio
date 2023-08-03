@@ -24,3 +24,7 @@
   .filepond--credits {
     display: none;
 }
+
+.trix-button-group--file-tools {
+  display: none!important;
+}

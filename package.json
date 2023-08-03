@@ -19,6 +19,7 @@
     "dependencies": {
         "@ryangjchandler/alpine-clipboard": "^2.2.0",
         "filepond": "^4.30.4",
-        "preline": "^1.9.0"
+        "preline": "^1.9.0",
+        "trix": "^2.0.5"
     }
 }

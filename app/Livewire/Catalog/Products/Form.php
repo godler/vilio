@@ -2,14 +2,15 @@
 
 namespace App\Livewire\Catalog\Products;
 
+use App\Models\Unit;
 use App\Models\Product;
 use Livewire\Component;
-use App\Livewire\Catalog\Products\Index;
-use App\Livewire\Forms\Catalog\CreateProduct;
-use App\Models\ProductCategory;
-use App\Models\Unit;
 use Livewire\Attributes\On; 
 use Livewire\WithFileUploads;
+use App\Models\ProductCategory;
+use App\Livewire\Catalog\Products\Index;
+use App\Livewire\Forms\Catalog\CreateProduct;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Form extends Component
 {
@@ -59,6 +60,11 @@ class Form extends Component
         return '';
     }
     
+    public function removeAttachment($id)
+    {
+        Media::find($id)->delete();
+        $this->form->product->refresh();
+    }
     
     public function render()
     {

@@ -17,8 +17,13 @@
             </x-form.select>
         @endif
     </div>
-    <x-form.input type="textarea" wire:model="form.description" name="form.description" label="Opis" />
-
+    
+    <x-form.trix  
+        :value="$form->description" 
+        attribute="form.description" 
+        @input="$wire.set('form.description', $event.target.value, false)"
+        label="Opis" />
+  
     @if ($categories)
         <x-form.select wire:model="form.category_id" name="form.category_id" label="Kategoria">
             <option>Wybierz</option>
@@ -28,20 +33,10 @@
         </x-form.select>
     @endif
 
-    <div class="mb-2 grid grid-cols-3 gap-3 max-w-full p-2 border rounded-md">
+    <div class="mb-2 grid grid-cols-7 gap-3 max-w-full p-2 border rounded-md">
         @if ($form->product)
             @foreach ($form->product->getMedia('attachments') as $media)
-                <div class="">
-                    @if ($media->type === 'video')
-                        <video width="320" height="240" controls>
-                            <source src="{{ $media->getFullUrl() }}" type="video/mp4">
-
-                            Your browser does not support the video tag.
-                        </video>
-                    @else
-                        {{ $media }}
-                    @endif
-                </div>
+                <x-ui.media-thumb :media="$media" removable  @remove="$wire.removeAttachment($event.detail.id)"/>
             @endforeach
         @endif
     </div>
