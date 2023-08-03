@@ -12,7 +12,7 @@ class Product extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $fillable = ['name', 'description', 'base_price', 'category_id', 'unit_id'];
+    protected $fillable = ['name', 'description', 'base_price', 'category_id', 'unit_id', 'index'];
 
 
     public function category():BelongsTo

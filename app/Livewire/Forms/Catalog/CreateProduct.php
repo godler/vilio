@@ -12,11 +12,14 @@ class CreateProduct extends Form
 
     #[Rule(['required','min:5'], null, null, 'Nazwa jest wymagana')]
     public $name = '';
+
+    #[Rule('nullable|string')]
+    public $index;
  
     #[Rule('required|min:5')]
     public $description = '';
 
-    #[Rule(['required', 'numeric'])]
+    #[Rule(['nullable', 'numeric'])]
     public $base_price = '';
     
     #[Rule(['required', 'numeric'])]
@@ -35,6 +38,8 @@ class CreateProduct extends Form
         $this->product = $product;
  
         $this->name = $product->name;
+
+        $this->index = $product->index;
  
         $this->description = $product->description;
 
