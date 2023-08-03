@@ -1,3 +1,3 @@
-<x-layout.page>
+<x-layouts.page>
    Oferta
-</x-layout.page>
+</x-layouts.page>
