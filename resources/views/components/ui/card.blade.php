@@ -1,4 +1,14 @@
-<div {{$attributes->merge(['class' =>  "p-3 px-4  items-center justify-between rounded relative bg-white shadow-md dark:bg-gray-800 sm:rounded-lg "])}}>
+@props(['noShadow' => false, 'title' => null, 'actions' => null])
+
+@php
+    $classes = "p-3 px-4  items-center justify-between rounded relative bg-white  dark:bg-gray-800 sm:rounded-lg ";
+
+    if(!$noShadow) {
+        $classes .= ' shadow-md';
+    }
+@endphp
+
+<div {{$attributes->merge(['class' =>  $classes])}}>
 
 
     @isset($title)

@@ -32,6 +32,10 @@ class CustomerForm extends Form
     
     public $addresses = []; 
 
+    public $is_company;
+
+    public $tax_number;
+
     protected $address = [
             'address' => null,
             'post_code' => null,
@@ -70,6 +74,10 @@ class CustomerForm extends Form
         $this->email = $customer->email;
 
         $this->notes = $customer->notes;
+
+        $this->is_company = $customer->is_company;
+
+        $this->tax_number = $customer->tax_number;
 
         $this->addresses =  $customer->addresses->map(fn($item) => Arr::except($item->toArray(), ['created_at', 'updated_at']))->toArray();
     }
