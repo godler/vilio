@@ -3,22 +3,13 @@ namespace App\Livewire\Forms\Catalog;
 
 use App\Models\Address;
 use App\Models\Customer;
-use Livewire\Attributes\Rule;
+use Illuminate\Validation\Rule;
 use Livewire\Form;
 use Illuminate\Support\Arr;
 
 class CustomerForm extends Form
 {
-    public $rules = [
-        'name' => ['required','min:5'],
-        'phone_number'=> ['string', 'nullable'],
-        'email' => ['email', 'nullable'],
-        'notes' => ['string', 'nullable'],
-        'addresses' => ['array'],
-        'addresses.*.city' => ['required', 'string'],
-        'addresses.*.address' => ['required', 'string'],
-        'addresses.*.post_code' => ['required', 'string']
-    ];
+   
     
     public ?Customer $customer;
 
@@ -32,7 +23,7 @@ class CustomerForm extends Form
     
     public $addresses = []; 
 
-    public $is_company;
+    public ?bool $is_company = null;
 
     public $tax_number;
 
@@ -41,6 +32,21 @@ class CustomerForm extends Form
             'post_code' => null,
             'city' => null
     ];
+
+
+    public $rules = [
+        'name' => ['required','min:5'],
+        'phone_number'=> ['string', 'nullable'],
+        'email' => ['email', 'nullable'],
+        'notes' => ['string', 'nullable'],
+        'is_company' => ['boolean'],
+        'tax_number' => [ 'required_if:is_company,true', 'string'],
+        'addresses' => ['array'],
+        'addresses.*.city' => ['required', 'string'],
+        'addresses.*.address' => ['required', 'string'],
+        'addresses.*.post_code' => ['required', 'string']
+    ];
+
 
     public function updateCustomer()
     {
@@ -65,6 +71,7 @@ class CustomerForm extends Form
  
     public function setCustomer(Customer $customer)
     {
+
         $this->customer = $customer;
  
         $this->name = $customer->name;

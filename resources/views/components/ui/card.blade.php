@@ -1,7 +1,7 @@
 @props(['noShadow' => false, 'title' => null, 'actions' => null])
 
 @php
-    $classes = "p-3 px-4  items-center justify-between rounded relative bg-white  dark:bg-gray-800 sm:rounded-lg ";
+    $classes = "p-3 px-4  border items-center justify-between rounded relative bg-white  dark:bg-gray-800 sm:rounded-lg ";
 
     if(!$noShadow) {
         $classes .= ' shadow-md';

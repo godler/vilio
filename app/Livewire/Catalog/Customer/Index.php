@@ -17,12 +17,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.catalog.customer.index', [
-            'customers' => Customer::when($this->search_name, function($query) {
-                return $query->where('name', 'like', '%'.$this->search_name.'%')
-                        ->orWhere('name', 'like', '%'.$this->search_name.'%')
-                        ->orWhere('phone_number', 'like', '%'.$this->search_name.'%');
-              })
-            ->get()
+            'customers' => Customer::search($this->search_name)->get()
         ]);
     }
 }

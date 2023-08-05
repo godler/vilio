@@ -11,22 +11,15 @@ class Form extends Component
 {
     public OfferForm $form;
 
-    #[Locked]
-    public $customers = [];
-    
-    public function mount()
-    {
-        $this->customers = Customer::all();
-    }
-    
-    public function updated() {
-        
-    }
-
 
     public function setCustomer($id)
     {
           $this->form->setCustomer($id);
+    }
+
+    public function addProduct($id) 
+    {
+        $this->form->addProduct($id);
     }
 
     public function render()

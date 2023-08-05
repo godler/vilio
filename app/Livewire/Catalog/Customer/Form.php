@@ -11,10 +11,10 @@ class Form extends Component
 {
     public ?CustomerForm $form;
 
-    public function submit() {
-        
-       $this->form->validate($this->form->rules);
-
+    public function submit() 
+    {      
+       $this->form->validate();
+    
        if ($this->form->customer) {
             $this->form->updateCustomer();
        } else {

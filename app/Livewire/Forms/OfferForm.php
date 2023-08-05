@@ -5,6 +5,8 @@ namespace App\Livewire\Forms;
 use App\Models\Address;
 use App\Models\Customer;
 use App\Models\Offer;
+use App\Models\OfferProduct;
+use App\Models\Product;
 use Carbon\Carbon;
 use Livewire\Attributes\Rule;
 use Livewire\Form;
@@ -22,6 +24,7 @@ class OfferForm extends Form
     public $expire_date;
     public $user_id;
     public $content;
+    public $products = [];
     
 
 
@@ -56,6 +59,22 @@ class OfferForm extends Form
         }
 
         $this->generateIndex();
+    }
+
+    public function addProduct($id)
+    {   
+        $product = Product::find($id);
+
+        $this->products[] = [
+            'product' => $product,
+            'name' => $product->name,
+            'product_id' => $product->id,
+            'price' => $product->base_price,
+            'vat' => 23,
+            'total'=> $product->base_price * 2, 
+            'amount' => 2
+        ];
+
     }
     
 
