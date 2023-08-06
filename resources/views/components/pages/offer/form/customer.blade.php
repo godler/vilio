@@ -1,4 +1,4 @@
-<x-ui.card title="Klient" class="w-1/2 border p-3 rounded-md mb-3" no-shadow>
+<x-ui.card title="Klient" class="border p-3 rounded-md" no-shadow>
     <x-slot:actions>
         <x-ui.link @click.prevent="selectCustomerModal = true" >
             <x-tabler-dots-vertical />

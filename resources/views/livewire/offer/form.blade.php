@@ -14,14 +14,23 @@
 >
     <x-ui.card title="Oferta {{$form->index}}" class="mb-3" no-shadow>
         <x-slot:actions>
-            <x-ui.link @click.prevent="selectCustomerModal = true" look="button" >
-                Zapisz
+           <div class="">
+            <x-tabler-loader-2  wire:loading wire:target="saveOffer" class="animate-spin w-5 h-5"/>
+            
+            <x-ui.link wire:click="saveOffer" look="button"  >
+               Zapisz
+               
             </x-ui.link>
+           </div>
             
         </x-slot:actions>
     </x-ui.card>
-       <div class="flex justify-between gap-3">
-            <x-pages.offer.form.customer :form="$form"/>           
+       <div class="flex flex-col lg:flex-auto justify-between gap-3">
+            <x-pages.offer.form.customer :form="$form"/>     
+            
+            <x-ui.card title="Szczegóły" no-shadow class="mb-3 flex-1" >
+                <x-form.input wire:model="form.expire_date" type="date" />
+            </x-ui.card>
        </div>
   
 
@@ -30,11 +39,10 @@
                 <x-ui.link @click="addProductModal = true" look="outlined">Dodaj produkt</x-ui.link>
             </x-slot:actions>
 
-            <div>
+            <div class="max=w-full overflow-y-auto">
                 <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th></th>
                             <th scope="col" class="px-6 py-4 font-medium text-gray-900">Nazwa</th>
                             <th scope="col" class="px-6 py-4 font-medium text-gray-900">Cena</th>
                             <th scope="col" class="px-6 py-4 font-medium text-gray-900">Ilość</th>
@@ -45,23 +53,20 @@
                     <tbody>
                         @foreach ($form->products as $key => $product)
                         <tr wire:key="{{$key}}">
-                            <td  class="px-2 py-3 font-medium text-gray-900">
-                                {{$loop->iteration}}
+                           <td  class="font-medium text-gray-900">
+                                <x-form.input wire:model.live="form.products.{{$key}}.name"/>
                             </td>
-                            <td  class="px-6 py-4 font-medium text-gray-900">
-                                <x-form.input wire:model="form.products.{{$key}}.name"/>
+                            <td  class="font-medium text-gray-900">
+                                <x-form.input wire:model.live="form.products.{{$key}}.price"/>
                             </td>
-                            <td  class="px-6 py-4 font-medium text-gray-900">
-                                <x-form.input wire:model="form.products.{{$key}}.price"/>
+                            <td  class="font-medium text-gray-900">
+                                <x-form.input wire:model.live="form.products.{{$key}}.amount"/>
                             </td>
-                            <td  class="px-6 py-4 font-medium text-gray-900">
-                                <x-form.input wire:model="form.products.{{$key}}.amount"/>
-                            </td>
-                            <td  class="px-6 py-4 font-medium text-gray-900">
-                                <x-form.input wire:model="form.products.{{$key}}.vat"/>
+                            <td  class="font-medium text-gray-900">
+                                <x-form.input wire:model.live="form.products.{{$key}}.vat"/>
                             </td>
                         
-                            <td  class="px-6 py-4 font-medium text-gray-900">
+                            <td  class="font-medium text-gray-900">
                                 {{$product['total']}}
                             </td>
                         </tr>
