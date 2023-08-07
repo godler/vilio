@@ -11,6 +11,7 @@ use App\Models\Customer;
 use Illuminate\Support\Arr;
 use App\Models\OfferProduct;
 use Livewire\Attributes\Rule;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class OfferForm extends Form
 {
@@ -24,9 +25,10 @@ class OfferForm extends Form
     public $address_id;
     public $expire_date;
     public $user_id;
-    public $content = '{}';
+    public $description = '';
 
     public $products = [];
+    public $attachments = [];
 
     public $rules = [
         'expire_date' => ['date']
@@ -42,16 +44,24 @@ class OfferForm extends Form
         $this->customer_id = $offer->customer_id;
         $this->expire_date = $offer->expire_date;
         $this->user_id = $offer->user_id;
-        $this->content = $offer->content;
+        $this->description = $offer->description;
 
         $this->setCustomer($offer->customer_id);
 
         $this->products = $offer->products->toArray();
+
+        $this->setAttachments();
     }
 
     public function setOfferById(int $id)
     { 
-        $this->setOffer(Offer::find($id));
+        $offer = Offer::find($id);
+
+        if (!$offer) {
+            abort(404);
+        }
+
+        $this->setOffer($offer);
     }
 
     public function setEmptyOffer() 
@@ -91,7 +101,19 @@ class OfferForm extends Form
             'vat' => 23,
         ]))->toArray();
 
+        $this->setAttachments();
+    }
 
+    public function removeProduct($key) {
+        $product = isset($this->products[$key]) ? $this->products[$key] : null;
+
+        if ($product) {
+            if(isset($product['id'])) {
+                OfferProduct::find($product['id'])->delete();
+            };
+            array_splice($this->products, $key, 1);
+        }
+        $this->setAttachments();
     }
 
 
@@ -125,6 +147,8 @@ class OfferForm extends Form
          $this->updateProduct($property[1], $property[2], $value);
        }
 
+       $this->setAttachments();
+
     }
 
     public function updateProduct($index, $property, $value)
@@ -134,4 +158,7 @@ class OfferForm extends Form
         $this->products[$index] = (new OfferProduct())->fill($this->products[$index])->toArray();
     }
 
+    private function setAttachments() {
+        $this->attachments = Media::whereIn('model_id', collect($this->products)->pluck('product_id'))->where('model_type', \App\Models\Product::class )->get();
+    }
 }

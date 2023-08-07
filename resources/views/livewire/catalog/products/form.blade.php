@@ -1,4 +1,10 @@
-<form wire:submit="submit" class="w-full">
+<form wire:submit="submit" class="w-full"
+x-data="{ uploading: false, progress: 0 }"
+x-on:livewire-upload-start="uploading = true"
+x-on:livewire-upload-finish="uploading = false"
+x-on:livewire-upload-error="uploading = false"
+x-on:livewire-upload-progress="progress = $event.detail.progress"
+>
 
     <div class="flex gap-3">
         <x-form.input wire:model="form.name" name="form.name" label="Nazwa" class="flex-1" />
@@ -33,20 +39,34 @@
         </x-form.select>
     @endif
 
-    <div class="mb-2 grid grid-cols-7 gap-3 max-w-full p-2 border rounded-md">
-        @if ($form->product)
-            @foreach ($form->product->getMedia('attachments') as $media)
-                <x-ui.media-thumb :media="$media" removable  @remove="$wire.removeAttachment($event.detail.id)"/>
-            @endforeach
-        @endif
+    <div>
+        <div class="block text-sm font-medium mb-1 text-slate-700 dark:text-white bg-white px-2">
+            Załączniki
+         </div>
+        <div class="mb-2  max-w-full p-2 border rounded-md">
+            
+            @if ($form->product)
+                @foreach ($form->product->getMedia('attachments') as $key => $media)
+                   <livewire:media.editable :media="$media" @media-removed="console.log('removed')"/>
+                @endforeach
+            @endif
+        </div>
     </div>
 
     <div>
-        <x-form.fileupload wire:model="form.files" name="form.files" multiple />
+        <x-form.fileupload  x-show="!uploading" wire:model="form.files" name="form.files" multiple />
+        <div x-show="uploading" class="mb-3">
+            <div class="flex w-full h-4 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
+                <div class="flex flex-col justify-center overflow-hidden bg-blue-500 text-xs text-white text-center" 
+                role="progressbar"  
+                :style="{  width: progress+'%' }"
+               aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" x-text="progress"></div>
+              </div>
+        </div>
     </div>
 
     <x-form.button wire:click="$dispatch('submit-contact-form')">
-        Zapisz
+        <x-tabler-alert-triangle wire:dirty class="w-5 h-5"/> Zapisz
     </x-form.button>
 
 </form>

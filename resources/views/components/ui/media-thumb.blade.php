@@ -2,7 +2,6 @@
 <div class="relative group h-[3.875rem] w-[3.875rem]"
       x-data="{
          remove() {
-            console.log('remove'); 
             $dispatch('remove', {id: {{$media->id}}})
          }
       }"

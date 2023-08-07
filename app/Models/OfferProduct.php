@@ -18,6 +18,10 @@ class OfferProduct extends Model
         'hidden' => 'boolean'
     ];
 
+    protected $attributes = [
+        'hidden' => false
+    ];
+
     public function total():Attribute
     {
         return Attribute::make(

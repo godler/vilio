@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('address_id')->nullable();
             $table->date('expire_date')->nullable();
             $table->foreignId('user_id');
-            $table->json('content');
+            $table->float('discount')->nullable();
+            $table->longText('description');
             $table->timestamps();
         });
     }

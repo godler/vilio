@@ -11,10 +11,10 @@ class Form extends Component
     public OfferForm $form;
 
 
-    public function mount($offer = null) {
-
+    public function mount($offer = null) 
+    {
         if($offer){
-            $this->form->setOfferById($offer);
+            $this->form->setOfferById($offer);   
         }
     }
 
@@ -47,9 +47,15 @@ class Form extends Component
         $this->form->updatedForm($value, $property);
     }
 
+    public function removeProduct($key)
+    {
+        $this->form->removeProduct($key);
+    }
+
     public function render()
     {
         return view('livewire.offer.form');
     }
+    
 
 }

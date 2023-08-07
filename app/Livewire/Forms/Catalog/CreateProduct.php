@@ -66,8 +66,9 @@ class CreateProduct extends Form
     }
 
     public function uploadFiles() {
+       
         foreach ($this->files as $file) {
-            $this->product->addMedia($file->getRealPath())->toMediaCollection('attachments');
+            $this->product->addMedia($file)->preservingOriginal()->toMediaCollection('attachments');
         }
     }
 
