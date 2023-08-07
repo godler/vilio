@@ -10,14 +10,25 @@ class OfferProduct extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['base_price', 'amount'];
+    protected $fillable = ['name', 'price', 'amount', 'vat', 'product_id', 'offer_id', 'hidden'];
 
     protected $appends = ['total'];
+
+    protected $casts = [
+        'hidden' => 'boolean'
+    ];
 
     public function total():Attribute
     {
         return Attribute::make(
             get: fn(mixed $value, array $attributes) => $attributes['price'] * $attributes['amount'] 
+        );
+    }
+
+    public function grossPrice(): Attribute
+    {
+        return Attribute::make(
+            get: fn(mixed $value, array $attributes) => $attributes['total'] + ($attributes['total'] * $attributes['vat'])
         );
     }
 }

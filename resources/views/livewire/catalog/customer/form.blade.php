@@ -7,7 +7,7 @@
     <div class="flex justify-between align-bottom gap-3">
 
         <div class="mt-8 mb-5">
-            <x-form.toggle wire:model="form.is_company" attribute="form.is_company" label="Firma"  />
+            <x-form.switch wire:model="form.is_company" attribute="form.is_company" label="Firma"  />
         </div>
    
         <x-form.input x-show="$wire.form.is_company" wire:model="form.tax_number" name="form.tax_number" label="NIP" class="flex-1 mb-0"/>

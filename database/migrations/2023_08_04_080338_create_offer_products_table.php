@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('offer_products', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->foreignId('offer_id');
             $table->foreignId('product_id');
             $table->float('price');
             $table->float('buy_price')->nullable();
             $table->text('description')->nullable();
+            $table->float('vat');
             $table->float('amount');
+            $table->boolean('hidden')->default(false);
             $table->timestamps();
         });
     }

@@ -45,6 +45,8 @@ class OfferForm extends Form
         $this->content = $offer->content;
 
         $this->setCustomer($offer->customer_id);
+
+        $this->products = $offer->products->toArray();
     }
 
     public function setOfferById(int $id)
@@ -81,22 +83,13 @@ class OfferForm extends Form
     {   
         $product = Product::find($id);
 
-        $offer_product = new OfferProduct();
-
-        $offer_product->price = $product->base_price;
-        $offer_product->amount = 1;
-
-        // $this->products[] = [
-        //     'product' => $product,
-        //     'name' => $product->name,
-        //     'product_id' => $product->id,
-        //     'price' => $product->base_price,
-        //     'vat' => 23,
-        //     'total'=> $product->base_price * 2, 
-        //     'amount' => 2
-        // ];
-    
-        $this->products[] = $offer_product->toArray();
+        $this->products[] = (new OfferProduct([
+            'name' => $product->name,
+            'product_id' => $product->id,
+            'price' => $product->base_price,
+            'amount' => 1,
+            'vat' => 23,
+        ]))->toArray();
 
 
     }
@@ -105,7 +98,7 @@ class OfferForm extends Form
     public function createOffer()
     {
         $this->user_id = auth()->user()->id;
-        Offer::create($this->getOfferToSave());
+        $this->offer = Offer::create($this->getOfferToSave());
     }
 
     public function updateOffer()
@@ -121,31 +114,24 @@ class OfferForm extends Form
 
     public function saveProducts() 
     {
+        $this->offer->products()?->delete();
+
+        $this->offer->products()->createMany($this->products);
+    }
+
+    public function updatedForm($value, $property )
+    {
+       if($property[0] == 'products') {
+         $this->updateProduct($property[1], $property[2], $value);
+       }
 
     }
 
-    public function updateProducts()
+    public function updateProduct($index, $property, $value)
     {
-        dd($this->products);
-
-    }
-
-    public function updated($property)
-    {
-        dd($property);
-        $this->form->recalculateProducts();
-    }
-
-    public function recalculateProducts()
-    {
-        $products  = [];
-        
-        foreach($this->products as $product)
-        {
-            $products = (new Product($product))->toArray();
-        }
-
-        $this->products = $products;
+        $this->products[$index][$property] = $value;
+     
+        $this->products[$index] = (new OfferProduct())->fill($this->products[$index])->toArray();
     }
 
 }

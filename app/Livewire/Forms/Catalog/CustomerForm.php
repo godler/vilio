@@ -40,7 +40,7 @@ class CustomerForm extends Form
         'email' => ['email', 'nullable'],
         'notes' => ['string', 'nullable'],
         'is_company' => ['boolean'],
-        'tax_number' => [ 'required_if:is_company,true', 'string'],
+        'tax_number' => [ 'required_if:is_company,true', 'string', 'nullable'],
         'addresses' => ['array'],
         'addresses.*.city' => ['required', 'string'],
         'addresses.*.address' => ['required', 'string'],

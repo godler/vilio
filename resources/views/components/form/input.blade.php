@@ -1,8 +1,14 @@
-@props(['name' => null, 'type' => 'text', 'label', 'size' => 'md', 'inline' => false])
+@props(['name' => null, 'type' => 'text', 'label', 'size' => 'md', 'inline' => false, 'noBorder' => false])
 
 @php 
     $wrapper_classes = 'relative mx-auto ';
-    $classes = "block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500";
+    $classes = "block w-full  ";
+
+    if (!$noBorder) {
+        $classes .= "rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500";
+    } else {
+        $classes .= "border-0 border-b-2 border-gray-200 focus:border-primary-500 focus:ring-0 disabled:cursor-not-allowed disabled:text-gray-500";
+    }
 
     if($errors->get($name)){
         $classes .= ' border-red-500 text-red-500';

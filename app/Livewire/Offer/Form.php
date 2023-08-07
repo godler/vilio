@@ -11,8 +11,11 @@ class Form extends Component
     public OfferForm $form;
 
 
-    public function mount($offer) {
-        $this->form->setOfferById($offer);
+    public function mount($offer = null) {
+
+        if($offer){
+            $this->form->setOfferById($offer);
+        }
     }
 
     public function setCustomer($id)
@@ -36,10 +39,13 @@ class Form extends Component
         $this->form->saveProducts();
     }
 
-    // public function updatedForm($property, $key)
-    // {
-    //     dd($property, $key);
-    // }
+    public function updatedForm($value, $key)
+    {
+        $property = explode('.', $key);
+
+      
+        $this->form->updatedForm($value, $property);
+    }
 
     public function render()
     {
