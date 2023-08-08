@@ -12,10 +12,10 @@
         
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css', 'resources/js/app.js', ])
     </head>
     <body class="font-sans antialiased text-alate-900 ">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gray-100  flex flex-col flex-1">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
@@ -28,10 +28,10 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="flex-col flex flex-1 bg-black">
                 {{ $slot }}
             </main>
         </div>
-
+        @vite(['resources/js/editor.js'])
     </body>
 </html>

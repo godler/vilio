@@ -40,6 +40,15 @@ Route::middleware('auth')
     ->name('offer.')
     ->group(__DIR__.'/web/offer.php');
 
+
+Route::middleware('auth')
+    ->prefix('/template')
+    ->name('template.')
+    ->group(function() {
+        Route::get('/', \App\Livewire\Template\Index::class);
+        Route::get('/{id}', \App\Livewire\Template\Editor::class);
+    });
+
 Route::get('/counter', \App\Livewire\Counter::class)->name('counter');
 
 require __DIR__.'/auth.php';
