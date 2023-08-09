@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OfferProduct extends Model
 {
@@ -12,7 +13,7 @@ class OfferProduct extends Model
 
     protected $fillable = ['name', 'price', 'amount', 'vat', 'product_id', 'offer_id', 'hidden'];
 
-    protected $appends = ['total'];
+    protected $appends = ['total', 'thumb'];
 
     protected $casts = [
         'hidden' => 'boolean'
@@ -34,5 +35,15 @@ class OfferProduct extends Model
         return Attribute::make(
             get: fn(mixed $value, array $attributes) => $attributes['total'] + ($attributes['total'] * $attributes['vat'])
         );
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function getThumbAttribute()
+    {
+        return $this->product->thumb;
     }
 }

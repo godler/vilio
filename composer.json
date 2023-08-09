@@ -16,7 +16,8 @@
         "livewire/livewire": "^3.0@beta",
         "nerdroid23/blade-icomoon": "^1.1",
         "ryangjchandler/blade-tabler-icons": "^2.0",
-        "spatie/laravel-medialibrary": "^10.11"
+        "spatie/laravel-medialibrary": "^10.11",
+        "twig/twig": "^3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

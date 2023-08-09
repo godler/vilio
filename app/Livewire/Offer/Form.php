@@ -3,12 +3,14 @@
 namespace App\Livewire\Offer;
 
 use App\Livewire\Forms\OfferForm;
-
+use App\Models\Template;
 use Livewire\Component;
 
 class Form extends Component
 {
     public OfferForm $form;
+
+    public $preview = null;
 
 
     public function mount($offer = null) 
@@ -50,6 +52,19 @@ class Form extends Component
     public function removeProduct($key)
     {
         $this->form->removeProduct($key);
+    }
+
+    public function generatePreview() 
+    {
+            
+        $this->preview = true;
+
+       
+    }
+
+    public function hidePreview() 
+    {
+        $this->preview = null;
     }
 
     public function render()

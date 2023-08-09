@@ -11,10 +11,14 @@
         'xl' => 'sm:max-w-xl',
         '2xl' => 'sm:max-w-2xl',
         '3xl' => 'sm:max-w-3xl',
+        '4xl' => 'sm:max-w-4xl',
+        '5xl' => 'sm:max-w-5xl',
+        '6xl' => 'sm:max-w-6xl',
+        '7xl' => 'sm:max-w-7xl',
     ][$maxWidth];
 @endphp
 
-<div {{ $attributes->merge(['class' => 'fixed top-0 m-0 mx-auto w-full h-full p-0 m-0 flex flex-col justify-center align-middle' ]) }}
+<div {{ $attributes->merge(['class' => 'fixed top-0 m-0 mx-auto w-full h-full p-0 m-0 flex flex-col justify-center align-middle overscroll-none' ]) }}
     x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
     x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
     x-cloak>

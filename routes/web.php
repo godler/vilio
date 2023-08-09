@@ -49,6 +49,10 @@ Route::middleware('auth')
         Route::get('/{id}', \App\Livewire\Template\Editor::class);
     });
 
-Route::get('/counter', \App\Livewire\Counter::class)->name('counter');
+
+Route::middleware('auth')
+    ->prefix('/settings')
+    ->name('settings.')
+    ->group(__DIR__.'/web/settings.php');
 
 require __DIR__.'/auth.php';

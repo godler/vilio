@@ -28,7 +28,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="flex-col flex flex-1 bg-black">
+            <main class="flex-col flex flex-1">
                 {{ $slot }}
             </main>
         </div>

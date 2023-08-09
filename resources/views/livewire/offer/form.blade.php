@@ -14,8 +14,10 @@
 >
     <x-ui.card title="Oferta {{$form->index}}" class="mb-3" >
         <x-slot:actions>
-           <div class="">
-            
+           <div class=" flex items-center gap-3 ">
+            <x-ui.link look="outlined" class="mb-0" wire:click="generatePreview">
+                <x-tabler-eye/>
+            </x-ui.link>
             
             <x-ui.link wire:click="saveOffer" look="button"   >
                 <div class="flex">
@@ -132,6 +134,29 @@
         >
             <livewire:components.product-selector />
         </x-ui.modal>
+
+        @if($preview)
+        <x-ui.modal 
+       
+        @close="$wire.hidePreview()"
+        max-width="7xl"
+        >
+            <x-slot:actions>
+                <a 
+                    href="{{route('offer.preview', ['id' => $form->offer->id, 'print'=>true ]) }}"
+                    target="blank"
+                    >
+                    <x-tabler-printer class="mr-3 color-satle-500"  />
+                </a>
+            </x-slot:actions>
+
+            <iframe 
+                src="{{route('offer.preview', ['id' => $form->offer->id ]) }}"
+                class="w-full min-h-[500px]"
+                height="100%" width="100%"
+                ></iframe>
+        </x-ui.modal>
+        @endif
     </div>
     @endteleport
 </x-layouts.page>
