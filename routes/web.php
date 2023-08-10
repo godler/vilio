@@ -41,13 +41,7 @@ Route::middleware('auth')
     ->group(__DIR__.'/web/offer.php');
 
 
-Route::middleware('auth')
-    ->prefix('/template')
-    ->name('template.')
-    ->group(function() {
-        Route::get('/', \App\Livewire\Template\Index::class);
-        Route::get('/{id}', \App\Livewire\Template\Editor::class);
-    });
+
 
 
 Route::middleware('auth')

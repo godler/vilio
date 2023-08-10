@@ -1,10 +1,12 @@
-<x-layouts.page>
-    <x-ui.card title="Szablony">
+<x-layouts.settings>
+
         @foreach ($templates as $template)
             <div>
-                {{$template->name}}
+                <x-ui.link href="{{route('settings.template.editor', ['id' => $template->id])}}">
+                    {{$template->name}}
+                </x-ui.link>
             </div>
         @endforeach
-    </x-ui.card>
+   
 
-</x-layouts.page>
+</x-layouts.settings>

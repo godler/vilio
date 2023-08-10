@@ -26,6 +26,7 @@ class OfferForm extends Form
     public $expire_date;
     public $user_id;
     public $description = '';
+    public $hide_prices = false;
 
     public $products = [];
     public $attachments = [];
@@ -45,6 +46,7 @@ class OfferForm extends Form
         $this->expire_date = $offer->expire_date;
         $this->user_id = $offer->user_id;
         $this->description = $offer->description;
+        $this->hide_prices = $offer->hide_prices;
 
         $this->setCustomer($offer->customer_id);
 

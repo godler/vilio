@@ -13,7 +13,11 @@ class Offer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['index', 'customer_id', 'expire_date', 'user_id', 'description'];
+    protected $fillable = ['index', 'customer_id', 'expire_date', 'user_id', 'description', 'hide_prices'];
+
+    protected $casts = [
+        'hide_prices' => 'boolean'
+    ];
 
     public function products(): HasMany
     {

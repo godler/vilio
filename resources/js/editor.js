@@ -10,20 +10,30 @@ import '/node_modules/codemirror/mode/css/css.js'
 
 
 
-if( document.getElementById("editor")) {
-  window.editor =  CodeMirror.fromTextArea(document.getElementById("editor"), {
-    lineNumbers: true,
-    mode: {name: "twig", base: "text/html"},
-    theme:'dracula',
-    autoCloseTags: true
-  });
+function loadEditor() {
+  if( document.getElementById("editor")) {
+    window.editor =  CodeMirror.fromTextArea(document.getElementById("editor"), {
+      lineNumbers: true,
+      mode: {name: "twig", base: "text/html"},
+      theme:'dracula',
+      autoCloseTags: true
+    });
+  }
+  
+  if( document.getElementById("styles")) {
+    window.styles =  CodeMirror.fromTextArea(document.getElementById("styles"), {
+      lineNumbers: true,
+      mode: 'css',
+      theme:'dracula',
+      autoCloseTags: true
+    });
+  }
 }
 
-if( document.getElementById("styles")) {
-  window.styles =  CodeMirror.fromTextArea(document.getElementById("styles"), {
-    lineNumbers: true,
-    mode: 'css',
-    theme:'dracula',
-    autoCloseTags: true
-  });
-}
+document.addEventListener('livewire:init', () => {
+  loadEditor();
+})
+
+document.addEventListener('livewire:navigated', () => { 
+  loadEditor();
+})

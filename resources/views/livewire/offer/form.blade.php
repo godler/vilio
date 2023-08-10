@@ -28,13 +28,13 @@
             </x-ui.link>
            </div>
         </x-slot:actions>
-        <div class="flex  flex-col md:flex-row justify-between gap-4">
-            <div class="flex-1">
+        <div class="flex  flex-col md:flex-row justify-between space-x-3">
+            <div class="flex-1 border rounded-md p-4">
                 <x-pages.offer.form.customer :form="$form"/>     
             </div>
-            <div class="flex-1">
-                <hr class="visible md:invisible md:mb-0 mb-3"/>
+            <div class="flex-1 border rounded-md p-4">
                 <x-form.input wire:model="form.expire_date" type="date" label="Data obowiązywania" />
+                <x-form.switch wire:model="form.hide_prices" attribute="form.hide_prices" type="date" label="Ukryj ceny poszczególnych produktów" />
             </div>
        </div>
     </x-ui.card>
@@ -138,8 +138,8 @@
         @if($preview)
         <x-ui.modal 
        
-        @close="$wire.hidePreview()"
-        max-width="7xl"
+            @close="$wire.hidePreview()"
+            max-width="7xl"
         >
             <x-slot:actions>
                 <a 
