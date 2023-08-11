@@ -13,7 +13,7 @@ class OfferProduct extends Model
 
     protected $fillable = ['name', 'price', 'amount', 'vat', 'product_id', 'offer_id', 'hidden'];
 
-    protected $appends = ['total', 'thumb'];
+    protected $appends = ['total', 'thumb', 'unit', 'gross'];
 
     protected $casts = [
         'hidden' => 'boolean'
@@ -45,5 +45,25 @@ class OfferProduct extends Model
     public function getThumbAttribute()
     {
         return $this->product->thumb;
+    }
+
+    public function getTotalAttribute()
+    {
+        return $this->price * $this->amount;
+    }
+
+    public function getGrossAttribute()
+    {
+        return $this->total + $this->vatvalue;
+    }
+
+    public function getVatvalueAttribute() 
+    {
+        return $this->total * ($this->vat / 100);
+    }
+
+    public function getUnitAttribute()
+    {
+        return $this->product->unit?->name;
     }
 }

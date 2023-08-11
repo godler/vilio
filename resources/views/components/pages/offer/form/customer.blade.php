@@ -5,10 +5,6 @@
             <div class="flex-1">
                 {{ $form->customer?->name }}
             </div>
-            <x-tabler-dots-vertical @click.prevent="selectCustomerModal = true" 
-                class="w-5 h-5 text-slate-500 cursor-pointer right-0 hover:text-slate-800"
-                 />
-
         </div>
         @if ($form->address)
             <div class="flex gap-3">
@@ -39,8 +35,19 @@
             </div>
         @endif
     @else
-        <x-ui.link @click.prevent="selectCustomerModal = true" look="outlined">
-            Wybierz klienta
-        </x-ui.link>
+        <x-form.input wire:model="form.customer_name" label="Imię i Nazwisko/Firma"/>     
+        <x-form.input wire:model="form.phone_number" label="Telefon"/>     
+        <x-form.input wire:model="form.email" label="Email"/>     
+        <x-form.input wire:model="form.address" label="Adress"/>     
+        <div class="flex space-x-3">
+            <x-form.input wire:model="form.city" label="Miejscowość" class="flex-1"/>     
+            <x-form.input wire:model="form.post_code" label="Kod pocztowy" class="w-1/3"/>    
+        </div>     
+        <div class="flex items-center space-x-3">
+            <div class="mt-5">
+                <x-form.switch wire:model="form.is_company" label="Firma" attribute="form.is_company"/>  
+            </div>   
+            <x-form.input x-show="$wire.form.is_company" wire:model="form.tax_number" label="NIP" class="flex-1"/> 
+        </div>  
     @endif
 </div>

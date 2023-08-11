@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Offer;
+use App\Models\Settings;
 use App\Models\Template;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class OfferPreview extends Controller
      */
     public function __invoke($id)
     {
-        $offer = Offer::where('id', $id)->with(['customer', 'address'])->first();
+        $offer = Offer::where('id', $id)->with(['customer', 'address', 'preview_products'])->first();
         $template = Template::find(1);
 
         $loader = new \Twig\Loader\ArrayLoader([
@@ -21,7 +22,7 @@ class OfferPreview extends Controller
         ]);
         $twig = new \Twig\Environment($loader);
         
-        $content = $twig->render('index', ['offer' => $offer]); 
+        $content = $twig->render('index', ['offer' => $offer, 'settings' => Settings::first(), 'products' => $offer->preview_products]); 
 
         return view('previews.offer', [
             'content' => $content,

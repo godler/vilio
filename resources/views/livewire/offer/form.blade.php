@@ -15,8 +15,19 @@
     <x-ui.card title="Oferta {{$form->index}}" class="mb-3" >
         <x-slot:actions>
            <div class=" flex items-center gap-3 ">
+
+            @if($form->offer)
             <x-ui.link look="outlined" class="mb-0" wire:click="generatePreview">
-                <x-tabler-eye/>
+                <x-tabler-send class="w-5 h-5"/> 
+                <div>
+                    Wyślij ofertę
+                </div>
+            </x-ui.link>
+
+            @endif
+            
+            <x-ui.link look="outlined" class="mb-0" wire:click="generatePreview">
+                <x-tabler-eye class="w-5 h-5"/>
             </x-ui.link>
             
             <x-ui.link wire:click="saveOffer" look="button"   >
@@ -28,14 +39,20 @@
             </x-ui.link>
            </div>
         </x-slot:actions>
-        <div class="flex  flex-col md:flex-row justify-between space-x-3">
-            <div class="flex-1 border rounded-md p-4">
-                <x-pages.offer.form.customer :form="$form"/>     
-            </div>
-            <div class="flex-1 border rounded-md p-4">
+        
+        <div class="flex  flex-col md:flex-row justify-between md:space-x-3">
+            <x-ui.card no-shadow title="Klient" class="md:w-1/3">
+                <x-slot:actions>
+                    <x-tabler-dots-vertical @click.prevent="selectCustomerModal = true" 
+                    class="w-5 h-5 text-slate-500 cursor-pointer right-0 hover:text-slate-800"
+                     />
+                </x-slot:actions>
+                <x-pages.offer.form.customer :form="$form"/>
+            </x-ui.card>
+            <x-ui.card no-shadow class="flex-1">
                 <x-form.input wire:model="form.expire_date" type="date" label="Data obowiązywania" />
                 <x-form.switch wire:model="form.hide_prices" attribute="form.hide_prices" type="date" label="Ukryj ceny poszczególnych produktów" />
-            </div>
+            </x-ui.card>
        </div>
     </x-ui.card>
 
@@ -52,12 +69,13 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-4 font-medium text-gray-900">Nazwa</th>
-                            <th>Pokaż w ofercie</th>
                             <th scope="col" class="px-6 py-4 font-medium text-gray-900">Cena sprzedaży (netto)</th>
                             <th scope="col" class="px-6 py-4 font-medium text-gray-900">Ilość</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Jednostka</th>
                             <th scope="col" class="px-6 py-4 font-medium text-gray-900">VAT</th>
                             <th scope="col" class="px-6 py-4 font-medium text-gray-900">Netto</th>
-                            <th></th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Brutto</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900 text-right">Akcje</th>
                           </tr>
                     </thead>
                     <tbody>
@@ -66,16 +84,7 @@
                            <td  class="font-medium text-gray-900 px-2 min-w-[200px]">
                                 <x-form.input wire:model="form.products.{{$key}}.name"  no-border/>
                             </td>
-                            <td class="text-center">
-                                <x-form.toggle wire:model="form.products.{{$key}}.hidden" attribute="form.products.{{$key}}.hidden">
-                                    <x-slot:on>
-                                        <x-tabler-eye-off class="w-4 h-4"/>
-                                    </x-slot:on>
-                                    <x-slot:off>
-                                        <x-tabler-eye class="w-4 h-4"/>
-                                    </x-slot:off>
-                                </x-form.toggle>
-                            </td>
+                            
                             <td  class="font-medium text-gray-900 w-28 px-2">
                                 <x-form.input wire:model.live="form.products.{{$key}}.price" no-border/>
                             </td>
@@ -83,18 +92,40 @@
                                 <x-form.input type="number" wire:model.live="form.products.{{$key}}.amount" no-border/>
                             </td>
                             <td  class="font-medium text-gray-900 w-28 px-2">
+                                {{$product['unit']}}
+                            </td>
+                            <td  class="font-medium text-gray-900 w-28 px-2">
                                 <x-form.input wire:model.live="form.products.{{$key}}.vat" no-border/>
                             </td>
                         
-                            <td  class="font-medium text-gray-900">
-                                {{$product['total']}}
+                            <td  class="font-medium text-gray-900 text-right px-4">
+                                {{$product['total']}} PLN
                             </td>
-                            <td>
-                                <x-tabler-trash class="w-5 h-5 hover:text-slate-500 cursor-pointer" wire:click="removeProduct({{$key}})"/>
+                            <td  class="font-medium text-gray-900 text-right px-4">
+                                {{$product['gross']}} PLN
+                            </td>
+                            <td class="" >
+                                <div class="flex space-x-3 w-full justify-end px-3">
+                                    <x-form.toggle wire:model="form.products.{{$key}}.hidden" attribute="form.products.{{$key}}.hidden">
+                                        <x-slot:on>
+                                            <x-tabler-eye-off class="w-4 h-4"/>
+                                        </x-slot:on>
+                                        <x-slot:off>
+                                            <x-tabler-eye class="w-4 h-4"/>
+                                        </x-slot:off>
+                                    </x-form.toggle>
+                                    <x-tabler-trash class="w-5 h-5 hover:text-slate-500 cursor-pointer" wire:click="removeProduct({{$key}})"/>
+                                </div>
                             </td>
                             
                         </tr>
                         @endforeach
+                        <tr>
+                            <td colspan="5" class="text-2xl text-bold text-black p-3 text-right">Suma: </td>
+                            <td  class="text-2xl text-bold text-black text-right px-4">{{$total}} PLN</td>
+                            <td  class="text-2xl text-bold text-black text-right px-4">{{$gross_total}} PLN</td>
+                            <td></td>
+                        </tr>
                     </tbody>
                    
                 </table>

@@ -2,9 +2,10 @@
 
 namespace App\Livewire\Offer;
 
-use App\Livewire\Forms\OfferForm;
-use App\Models\Template;
 use Livewire\Component;
+use App\Models\Template;
+use App\Livewire\Forms\OfferForm;
+use Livewire\Attributes\Computed;
 
 class Form extends Component
 {
@@ -62,6 +63,16 @@ class Form extends Component
        
     }
 
+    public function total()
+    {
+        return collect($this->form->products)->map(fn($item) => $item['price']*$item['amount'])->sum();
+    }
+
+    public function gross_total()
+    {
+        return collect($this->form->products)->map(fn($item) => $item['price']*$item['amount'] + (($item['price']*$item['amount'])*($item['vat']/100)))->sum();
+    }
+
     public function hidePreview() 
     {
         $this->preview = null;
@@ -69,7 +80,10 @@ class Form extends Component
 
     public function render()
     {
-        return view('livewire.offer.form');
+        return view('livewire.offer.form', [
+            'total' => $this->total(),
+            'gross_total' => $this->gross_total()
+        ]);
     }
     
 

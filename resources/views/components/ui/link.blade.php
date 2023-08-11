@@ -26,7 +26,7 @@ $classes .= ' cursor-pointer '
         wire:navigate 
     @endif
    >
-    <div wire:loading.remove wire:target="{{$action}}">
+    <div wire:loading.remove wire:target="{{$action}}" class="flex space-x-3">
         {{ $slot }}
     </div>
  

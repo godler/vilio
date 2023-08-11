@@ -17,7 +17,7 @@ class OfferForm extends Form
 {
     public ?Offer $offer = null;
     public ?Customer $customer = null;
-    public ?Address $address = null;
+
 
 
     public $index;
@@ -27,6 +27,15 @@ class OfferForm extends Form
     public $user_id;
     public $description = '';
     public $hide_prices = false;
+
+    public $customer_name = '';
+    public $phone_number = '';
+    public $email = '';
+    public $is_company = false;
+    public $tax_number = '';
+    public $address = '';
+    public $city = '';
+    public $post_code = '';
 
     public $products = [];
     public $attachments = [];
@@ -47,6 +56,15 @@ class OfferForm extends Form
         $this->user_id = $offer->user_id;
         $this->description = $offer->description;
         $this->hide_prices = $offer->hide_prices;
+
+        $this->customer_name = $offer->customer_name;
+        $this->phone_number = $offer->phone_number;
+        $this->email = $offer->email;
+        $this->is_company = $offer->is_company;
+        $this->tax_number = $offer->tax_number;
+        $this->address = $offer->address;
+        $this->city = $offer->city;
+        $this->post_code = $offer->post_code;
 
         $this->setCustomer($offer->customer_id);
 
@@ -73,22 +91,22 @@ class OfferForm extends Form
 
     public function generateIndex() 
     {
-        $this->index = 'OF-'.Offer::count() + 1 .'-'. $this->customer->id.'-'. Carbon::now()->year;
+        $this->index = 'OF-'.Offer::where('email', $this->email)->count() + 1 .'-'. Carbon::now()->month.'-'. Carbon::now()->year;
     }
 
     public function setCustomer($id)
     {
         $this->customer = Customer::with('addresses')->where('id', $id)->first();
 
-        $this->customer_id = $this->customer->id;
+        if($this->customer) {
+            $this->customer_id = $this->customer->id;
 
-        if($this->customer->addresses->count() == 1 )
-        {
-            $this->address = $this->customer->addresses->first();
-            $this->address_id = $this->address->id;
+            if($this->customer->addresses->count() == 1 )
+            {
+                $this->address = $this->customer->addresses->first();
+                $this->address_id = $this->address->id;
+            }
         }
-
-        $this->generateIndex();
     }
 
     public function addProduct($id)
@@ -122,6 +140,7 @@ class OfferForm extends Form
     public function createOffer()
     {
         $this->user_id = auth()->user()->id;
+        $this->generateIndex();
         $this->offer = Offer::create($this->getOfferToSave());
     }
 

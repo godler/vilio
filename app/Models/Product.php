@@ -42,6 +42,13 @@ class Product extends Model implements HasMedia
         }
     }
 
+    public function unit():BelongsTo
+    {
+        return $this->belongsTo(Unit::class, 'unit_id');
+    }
+    
+   
+
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
