@@ -32,7 +32,7 @@ class Offer extends Model
 
     public function preview_products(): HasMany
     {
-        return $this->hasMany(OfferProduct::class, 'offer_id')->whereNot('hidden', false);
+        return $this->hasMany(OfferProduct::class, 'offer_id')->where('hidden', false);
     }
 
     
